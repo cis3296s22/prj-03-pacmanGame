@@ -1,16 +1,6 @@
-# Pac-Man Game 
-
-This project Pac-Man Game developed using Java and IntelliJ. 
-
-This game will be made with JAVA programming, and using java swing library and state and strategy design patterns. The code is implemented in JAVAFX.
-
-Pac-Man is a fun game and it  seems simple, but the code behind this simple game is complex. This is an attempt to  understand a little bit about the design of Pac-Man and along the way to make some  modifications.
-
-This game, we just need to use an arrow on the keyboard (up, down, right, left), and get all the points in the maze and avoid the ghosts.  
-In this game two player mode, and win condition is given to the highest scoring human player, regardless of AL effect.  Our game will offer players special powers such as attack capability, invincibility, etc.. 
-
-<img width="421" alt="Screen Shot 2022-03-29 at 2 07 58 PM" src="https://user-images.githubusercontent.com/89541399/160683592-bd5948dc-04d1-4275-99b4-f9838ceaa0cc.png">
-
+# Project Name
+Put here a short paragraph describing your project. 
+Adding an screenshot or a mockup of your application in action would be nice.  
 
 ![This is a screenshot.](images.png)
 # How to run
