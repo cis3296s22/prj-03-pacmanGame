@@ -35,7 +35,7 @@ Ghosts frenzy mode
 1 or 2 ghost turn invincible (disappears on map but hurts Pac-Man if collision occurs)
 Different version of Pac-Man (mouse, cheese, cat)
 
-### How to build
+# How to build
 Prerequisites:
 
 MacOS, Windows
