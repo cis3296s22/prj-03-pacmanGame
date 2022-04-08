@@ -20,9 +20,9 @@ public class Model extends JPanel implements ActionListener {
     private final int MAX_GHOSTS = 12;
     private final int PACMAN_SPEED = 6;
 
-    private int N_GHOSTS = 6;
+    private int N_GHOSTS = 4;
     private int lives, score;
-    private int[] dx, dy;
+    private int[] dx, dy; // needed for position of ghost
     private int[] ghost_x, ghost_y, ghost_dx, ghost_dy, ghostSpeed;
 
     private Image heart, ghost;
@@ -32,21 +32,21 @@ public class Model extends JPanel implements ActionListener {
     private int req_dx, req_dy;
 
     private final short levelData[] = {
-    	19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
-        17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        25, 24, 24, 24, 28, 0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
-        0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
-        19, 18, 18, 18, 18, 18, 16, 16, 16, 16, 24, 24, 24, 24, 20,
-        17, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 16, 24, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 18, 18, 18, 18, 20,
-        17, 24, 24, 28, 0, 25, 24, 24, 16, 16, 16, 16, 16, 16, 20,
-        21, 0,  0,  0,  0,  0,  0,   0, 17, 16, 16, 16, 16, 16, 20,
-        17, 18, 18, 22, 0, 19, 18, 18, 16, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
+    	19, 18, 18, 26, 26, 18, 26, 26, 26, 18, 26, 26, 26, 18, 22,
+        17, 16, 28,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 17, 20,
+        17, 20,  0, 19, 18, 16, 22,  0, 19, 20,  0, 27, 26, 16, 20,
+        17, 20,  0, 25, 24, 16, 28,  0, 25, 16, 30,  0,  0, 17, 20,
+        17, 16, 22,  0,  0, 21,  0,  0,  0, 21,  0,  0,  0, 17, 20,
+        17, 16, 16, 18, 18, 16, 18, 18, 18, 16, 18, 18, 18, 16, 20,
+        17, 16, 16, 16, 24, 24, 24, 16, 24, 24, 24, 16, 16, 16, 20,
+        17, 16, 16, 20,  0,  0,  0, 21,  0,  0,  0, 17, 16, 16, 20,
+        17, 16, 16, 16, 26, 30,  0, 17, 30,  0,  0, 17, 16, 16, 20,
+        17, 16, 16, 20,  0,  0,  0, 21,  0,  0,  0, 17, 16, 16, 20,
+        17, 16, 16, 16, 26, 26, 26, 16, 26, 26, 26, 16, 16, 16, 20,
+        17, 16, 16, 20,  0,  0,  0, 21,  0,  0,  0, 17, 16, 16, 20,
+        17, 16, 16, 20,  0,  0,  0, 21,  0,  0, 27, 16, 16, 16, 20,
+        17, 16, 16, 16, 18, 22,  0, 21,  0,  0,  0, 17, 16, 16, 20,
+        25, 24, 24, 24, 24, 24, 26, 24, 26, 26, 26, 24, 24, 24, 28
     };
 
     private final int validSpeeds[] = {1, 2, 3, 4, 6, 8};
@@ -57,7 +57,6 @@ public class Model extends JPanel implements ActionListener {
     private Timer timer;
 
     public Model() {
-
         loadImages();
         initVariables();
         addKeyListener(new TAdapter());
@@ -75,8 +74,8 @@ public class Model extends JPanel implements ActionListener {
         heart = new ImageIcon("images/heart.png").getImage();
 
     }
-       private void initVariables() {
 
+    private void initVariables() {
         screenData = new short[N_BLOCKS * N_BLOCKS];
         d = new Dimension(400, 400);
         ghost_x = new int[MAX_GHOSTS];
@@ -131,7 +130,7 @@ public class Model extends JPanel implements ActionListener {
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
 
-            if ((screenData[i]) != 0) {
+            if ((screenData[i] & 48) != 0) {
                 finished = false;
             }
 
@@ -250,6 +249,7 @@ public class Model extends JPanel implements ActionListener {
             pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
             ch = screenData[pos];
 
+
             if ((ch & 16) != 0) {
                 screenData[pos] = (short) (ch & 15);
                 score++;
@@ -339,8 +339,8 @@ public class Model extends JPanel implements ActionListener {
     	lives = 3;
         score = 0;
         initLevel();
-        N_GHOSTS = 6;
-        currentSpeed = 3;
+        N_GHOSTS = 1;
+        currentSpeed = 1;
     }
 
     private void initLevel() {
@@ -358,6 +358,7 @@ public class Model extends JPanel implements ActionListener {
     	int dx = 1;
         int random;
 
+        // create random speed for ghost
         for (int i = 0; i < N_GHOSTS; i++) {
 
             ghost_y[i] = 4 * BLOCK_SIZE; //start position
