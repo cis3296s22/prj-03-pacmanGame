@@ -9,6 +9,10 @@ import java.awt.event.KeyEvent;
 
 public class Model extends JPanel implements ActionListener {
 
+    private int highest = 0;
+    private long shortestComplete = 0;
+    private boolean infinity = false;
+    private long startTime;
 	private Dimension d;
     private final Font smallFont = new Font("Arial", Font.BOLD, 14);
     private boolean inGame = false;
@@ -30,6 +34,9 @@ public class Model extends JPanel implements ActionListener {
 
     private int pacman_x, pacman_y, pacmand_x, pacmand_y;
     private int req_dx, req_dy;
+
+
+
 
     private final short levelData[] = {
     	19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
@@ -108,9 +115,18 @@ public class Model extends JPanel implements ActionListener {
 
     private void showIntroScreen(Graphics2D g2d) {
  
-    	String start = "Press SPACE to start";
+    	String Normal = "Press SPACE to start";
+        String Hard = "Press Enter for HardMode";
+        String Intro ="Press Control for Intro demo";
+        String Highest = "Highest Score:" + highest;
+        String ShortestComplete ="Shortest Complete time:" + shortestComplete + " sec";
         g2d.setColor(Color.yellow);
-        g2d.drawString(start, (SCREEN_SIZE)/4, 150);
+        g2d.drawString(Normal, (SCREEN_SIZE)/4, 150);
+        g2d.drawString(Hard, (SCREEN_SIZE)/4, 200);
+        g2d.drawString(Intro, (SCREEN_SIZE)/4, 250);
+        g2d.drawString(Highest, 0, 330);
+        g2d.drawString(ShortestComplete, 0, 350);
+
     }
 
     private void drawScore(Graphics2D g) {
@@ -152,10 +168,20 @@ public class Model extends JPanel implements ActionListener {
 
             initLevel();
         }
+        if(score>=194){
+            if(!infinity)
+                score = score + lives * 50;
+            long end =System.currentTimeMillis();
+            highest = score;
+            shortestComplete = (end - startTime)/1000;
+            inGame = false;
+            timer.stop();
+
+        }
     }
 
     private void death() {
-
+        if(!infinity)
     	lives--;
 
         if (lives == 0) {
@@ -342,6 +368,24 @@ public class Model extends JPanel implements ActionListener {
         N_GHOSTS = 6;
         currentSpeed = 3;
     }
+    private void initGame_HardMode() {
+
+        lives = 3;
+        score = 0;
+        initLevel();
+        N_GHOSTS = 10;
+        currentSpeed = 4;
+    }
+    private void initGame_IntroMode() {
+
+        lives = 3;
+        score = 0;
+        initLevel();
+        N_GHOSTS = 4;
+        currentSpeed = 2;
+    }
+
+
 
     private void initLevel() {
 
@@ -433,9 +477,23 @@ public class Model extends JPanel implements ActionListener {
             } else {
                 if (key == KeyEvent.VK_SPACE) {
                     inGame = true;
+                    final long startTime =System.currentTimeMillis();
                     initGame();
                 }
-            }
+                if (key == KeyEvent.VK_ENTER) {
+                    inGame = true;
+                    startTime =System.currentTimeMillis();
+                    initGame_HardMode();
+                }
+                if (key == KeyEvent.VK_CONTROL) {
+                    inGame = true;
+                    infinity = true;
+                    startTime =System.currentTimeMillis();
+                    initGame_IntroMode();
+                }
+
+
+                }
         }
 }
 
