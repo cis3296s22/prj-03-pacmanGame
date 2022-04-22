@@ -1,15 +1,20 @@
-# Pac-Man Game
-A fun throwback to the Pac-Man game with added modification features. As it stands, the Pac-Man game is not a complete version of the original nor was it the intention. Given the time frame we will adjust to make our own version of Pac-Man and jump right into adding features in. Below is a screenshot of a working Pac-Man game from a YouTube tutorial by gaspar coding channel. We will use this as a source to understand deeply the making of Pac-Man in order to create our own Pac-Man version.
+# Pac-Man with Modifications
+For Pac-Man lovers who don’t mind trying out a similar structure yet different ideas of the game, our Pac-Man version is a video game that has various fun modifications added such as: a unique map, pause feature, infinity lives mode, cat/mouse/cheese model, will-o-wisp feature, and sound/music feature.
 
-<img width="421" alt="Screen Shot 2022-03-29 at 2 07 58 PM" src="https://user-images.githubusercontent.com/89541399/160683592-bd5948dc-04d1-4275-99b4-f9838ceaa0cc.png">
+
+<img width="246" alt="image" src="https://user-images.githubusercontent.com/89528158/164624189-3af849f0-bda2-42a4-9f0f-1517eb30a994.png">
+
 
 # How to run
 - Make sure your computer or laptop is compiling and running with the same java version.
 - Use latest java version if need be.
+- If you encounter an error with running the jar files and you're running MacOS, try "export JAVA_HOME=$(/usr/libexec/java_home -v 18)" replace 18 with the version you compiled the code with.
 
  Running
 
-``` Open a terminal. Git clone the project repo. Navigate to the folder that has the jar file executable in it. Run it by typing the command "java -jar prj-03-pacmanGame.jar"```
+``` Open a terminal. Git clone the project repo. Navigate to the folder that has the jar file executable in it. Run it by typing the command "java -jar [filename].jar"```
+
+Download the features from the release and move the jar files in the same level as the image folder. Double-check that you have all that is needed (e.g. Cat-Mouse-Cheese feature requires the cat.png and mouse.png).
 
 # How to contribute
 Follow this project board to know the latest status of the project: [Trello Board](https://trello.com/b/LP6zn5m5/scrumpregame).
@@ -19,5 +24,5 @@ Follow this project board to know the latest status of the project: [Trello Boar
 - Use the main branch for latest release
 - Use IntelliJ 18
 - Go to Build -> Build Project
-- Run the Pacman class by right-clicking it -> Run or you can run the jar file using the terminal
+- Run the Pacman class by right-clicking it -> Run
 - A java application window should open when the app starts
