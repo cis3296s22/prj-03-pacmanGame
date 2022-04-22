@@ -440,7 +440,6 @@ public class Model extends JPanel implements ActionListener {
                 } else if (key == KeyEvent.VK_C) {
                     if (timer.isRunning()) {
                         timer.stop();
-                        isPauseFeatureWorking();
                     } else {
                         timer.start();
                     }
@@ -458,11 +457,6 @@ public class Model extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
-    }
-
-    public boolean isPauseFeatureWorking(){
-        isPauseFeatureWorking = true;
-        return isPauseFeatureWorking;
     }
 
 }
