@@ -21,3 +21,4 @@ Follow this project board to know the latest status of the project: [Trello Boar
 - Go to Build -> Build Project
 - Run the Pacman class by right-clicking it -> Run or you can run the jar file using the terminal
 - A java application window should open when the app starts
+
