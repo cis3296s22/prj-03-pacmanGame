@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 public class Model extends JPanel implements ActionListener {
 
-	private Dimension d;
+    private Dimension d;
     private final Font smallFont = new Font("Arial", Font.BOLD, 14);
     private boolean inGame = false;
     private boolean dying = false;
@@ -22,7 +22,7 @@ public class Model extends JPanel implements ActionListener {
 
     private int N_GHOSTS = 6;
     private int lives, score;
-    private int[] dx, dy;
+    private int[] dx, dy; // needed for position of ghost
     private int[] ghost_x, ghost_y, ghost_dx, ghost_dy, ghostSpeed;
 
     private Image heart, ghost;
@@ -32,21 +32,21 @@ public class Model extends JPanel implements ActionListener {
     private int req_dx, req_dy;
 
     private final short levelData[] = {
-    	19, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 22,
-        17, 16, 16, 16, 16, 24, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        25, 24, 24, 24, 28, 0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
-        0,  0,  0,  0,  0,  0, 17, 16, 16, 16, 16, 16, 16, 16, 20,
-        19, 18, 18, 18, 18, 18, 16, 16, 16, 16, 24, 24, 24, 24, 20,
-        17, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 16, 16, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 16, 24, 16, 16, 16, 16, 20, 0,  0,  0,   0, 21,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 18, 18, 18, 18, 20,
-        17, 24, 24, 28, 0, 25, 24, 24, 16, 16, 16, 16, 16, 16, 20,
-        21, 0,  0,  0,  0,  0,  0,   0, 17, 16, 16, 16, 16, 16, 20,
-        17, 18, 18, 22, 0, 19, 18, 18, 16, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        17, 16, 16, 20, 0, 17, 16, 16, 16, 16, 16, 16, 16, 16, 20,
-        25, 24, 24, 24, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28
+            19, 18, 18, 26, 26, 18, 26, 26, 26, 18, 26, 26, 26, 18, 22,
+            17, 16, 28, 0, 0, 21, 0, 0, 0, 21, 0, 0, 0, 17, 20,
+            17, 20, 0, 19, 18, 16, 22, 0, 19, 20, 0, 27, 26, 16, 20,
+            17, 20, 0, 25, 24, 16, 28, 0, 25, 16, 30, 0, 0, 17, 20,
+            17, 16, 22, 0, 0, 21, 0, 0, 0, 21, 0, 0, 0, 17, 20,
+            17, 16, 16, 18, 18, 16, 18, 18, 18, 16, 18, 18, 18, 16, 20,
+            17, 16, 16, 16, 24, 24, 24, 16, 24, 24, 24, 16, 16, 16, 20,
+            17, 16, 16, 20, 0, 0, 0, 21, 0, 0, 0, 17, 16, 16, 20,
+            17, 16, 16, 16, 26, 30, 0, 17, 30, 0, 0, 17, 16, 16, 20,
+            17, 16, 16, 20, 0, 0, 0, 21, 0, 0, 0, 17, 16, 16, 20,
+            17, 16, 16, 16, 26, 26, 26, 16, 26, 26, 26, 16, 16, 16, 20,
+            17, 16, 16, 20, 0, 0, 0, 21, 0, 0, 0, 17, 16, 16, 20,
+            17, 16, 16, 20, 0, 0, 0, 21, 0, 0, 27, 16, 16, 16, 20,
+            17, 16, 16, 16, 18, 22, 0, 21, 0, 0, 0, 17, 16, 16, 20,
+            25, 24, 24, 24, 24, 24, 26, 24, 26, 26, 26, 24, 24, 24, 28
     };
 
     private final int validSpeeds[] = {1, 2, 3, 4, 6, 8};
@@ -56,27 +56,36 @@ public class Model extends JPanel implements ActionListener {
     private short[] screenData;
     private Timer timer;
 
-    public Model() {
+    /* Code for Will-O-Wisp feature
+    private Timer timer2;
+    private boolean isGhostInvis = false; */
 
+    public Model() {
         loadImages();
         initVariables();
         addKeyListener(new TAdapter());
         setFocusable(true);
         initGame();
     }
-    
-    
+
     private void loadImages() {
-    	down = new ImageIcon("images/down.gif").getImage();
-    	up = new ImageIcon("images/up.gif").getImage();
-    	left = new ImageIcon("images/left.gif").getImage();
-    	right = new ImageIcon("images/right.gif").getImage();
-        ghost = new ImageIcon("images/ghost.gif").getImage();
+
+        /* Code for Cat-Mouse-Cheese feature
+        down = new ImageIcon("images/mouse.png").getImage();
+        up = new ImageIcon("images/mouse.png").getImage();
+        left = new ImageIcon("images/mouse.png").getImage();
+        right = new ImageIcon("images/mouse.png").getImage();
+        ghost = new ImageIcon("images/cat.png").getImage();
+        heart = new ImageIcon("images/heart.png").getImage(); */
+        down = new ImageIcon("images/down.png").getImage();
+        up = new ImageIcon("images/up.png").getImage();
+        left = new ImageIcon("images/left.png").getImage();
+        right = new ImageIcon("images/right.png").getImage();
+        ghost = new ImageIcon("images/ghost.png").getImage();
         heart = new ImageIcon("images/heart.png").getImage();
-
     }
-       private void initVariables() {
 
+    private void initVariables() {
         screenData = new short[N_BLOCKS * N_BLOCKS];
         d = new Dimension(400, 400);
         ghost_x = new int[MAX_GHOSTS];
@@ -86,19 +95,34 @@ public class Model extends JPanel implements ActionListener {
         ghostSpeed = new int[MAX_GHOSTS];
         dx = new int[4];
         dy = new int[4];
-        
+
         timer = new Timer(40, this);
         timer.start();
+        /* Code for Will-O-Wisp feature
+        int delay = 1000;
+        ActionListener taskPerformer = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!isGhostInvis){
+                    ghost = new ImageIcon("images/ghost.png").getImage();
+                    isGhostInvis = true;
+                }
+                else{
+                    // ghostx.png file does not exist is left purposefully
+                    ghost = new ImageIcon("images/ghostx.png").getImage();
+                    isGhostInvis = false;
+                }
+            }
+        };
+        timer2 = new Timer(delay, taskPerformer);
+        timer2.setRepeats(true);
+        timer2.start(); */
     }
 
     private void playGame(Graphics2D g2d) {
-
         if (dying) {
-
             death();
-
         } else {
-
             movePacman();
             drawPacman(g2d);
             moveGhosts(g2d);
@@ -107,10 +131,9 @@ public class Model extends JPanel implements ActionListener {
     }
 
     private void showIntroScreen(Graphics2D g2d) {
- 
-    	String start = "Press SPACE to start";
+        String start = "Press SPACE to start";
         g2d.setColor(Color.yellow);
-        g2d.drawString(start, (SCREEN_SIZE)/4, 150);
+        g2d.drawString(start, (SCREEN_SIZE) / 4, 150);
     }
 
     private void drawScore(Graphics2D g) {
@@ -125,48 +148,38 @@ public class Model extends JPanel implements ActionListener {
     }
 
     private void checkMaze() {
-
         int i = 0;
         boolean finished = true;
 
         while (i < N_BLOCKS * N_BLOCKS && finished) {
-
-            if ((screenData[i]) != 0) {
+            if ((screenData[i] & 48) != 0) {
                 finished = false;
             }
-
             i++;
         }
 
         if (finished) {
-
             score += 50;
-
             if (N_GHOSTS < MAX_GHOSTS) {
                 N_GHOSTS++;
             }
-
             if (currentSpeed < maxSpeed) {
                 currentSpeed++;
             }
-
             initLevel();
         }
     }
 
     private void death() {
-
-    	lives--;
-
+        /* Code for Infinity Pacman
+        lives--; */
         if (lives == 0) {
             inGame = false;
         }
-
         continueLevel();
     }
 
     private void moveGhosts(Graphics2D g2d) {
-
         int pos;
         int count;
 
@@ -238,17 +251,17 @@ public class Model extends JPanel implements ActionListener {
     }
 
     private void drawGhost(Graphics2D g2d, int x, int y) {
-    	g2d.drawImage(ghost, x, y, this);
-        }
+        g2d.drawImage(ghost, x, y, this);
+    }
 
     private void movePacman() {
-
         int pos;
         short ch;
 
         if (pacman_x % BLOCK_SIZE == 0 && pacman_y % BLOCK_SIZE == 0) {
             pos = pacman_x / BLOCK_SIZE + N_BLOCKS * (int) (pacman_y / BLOCK_SIZE);
             ch = screenData[pos];
+
 
             if ((ch & 16) != 0) {
                 screenData[pos] = (short) (ch & 15);
@@ -273,70 +286,69 @@ public class Model extends JPanel implements ActionListener {
                 pacmand_x = 0;
                 pacmand_y = 0;
             }
-        } 
+        }
         pacman_x = pacman_x + PACMAN_SPEED * pacmand_x;
         pacman_y = pacman_y + PACMAN_SPEED * pacmand_y;
     }
 
     private void drawPacman(Graphics2D g2d) {
-
         if (req_dx == -1) {
-        	g2d.drawImage(left, pacman_x + 1, pacman_y + 1, this);
+            g2d.drawImage(left, pacman_x + 1, pacman_y + 1, this);
         } else if (req_dx == 1) {
-        	g2d.drawImage(right, pacman_x + 1, pacman_y + 1, this);
+            g2d.drawImage(right, pacman_x + 1, pacman_y + 1, this);
         } else if (req_dy == -1) {
-        	g2d.drawImage(up, pacman_x + 1, pacman_y + 1, this);
+            g2d.drawImage(up, pacman_x + 1, pacman_y + 1, this);
         } else {
-        	g2d.drawImage(down, pacman_x + 1, pacman_y + 1, this);
+            g2d.drawImage(down, pacman_x + 1, pacman_y + 1, this);
         }
     }
 
     private void drawMaze(Graphics2D g2d) {
-
         short i = 0;
         int x, y;
 
         for (y = 0; y < SCREEN_SIZE; y += BLOCK_SIZE) {
             for (x = 0; x < SCREEN_SIZE; x += BLOCK_SIZE) {
 
-                g2d.setColor(new Color(0,72,251));
+                g2d.setColor(new Color(0, 72, 251));
                 g2d.setStroke(new BasicStroke(5));
-                
-                if ((levelData[i] == 0)) { 
-                	g2d.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
-                 }
 
-                if ((screenData[i] & 1) != 0) { 
+                if ((levelData[i] == 0)) {
+                    g2d.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
+                }
+
+                if ((screenData[i] & 1) != 0) {
                     g2d.drawLine(x, y, x, y + BLOCK_SIZE - 1);
                 }
 
-                if ((screenData[i] & 2) != 0) { 
+                if ((screenData[i] & 2) != 0) {
                     g2d.drawLine(x, y, x + BLOCK_SIZE - 1, y);
                 }
 
-                if ((screenData[i] & 4) != 0) { 
+                if ((screenData[i] & 4) != 0) {
                     g2d.drawLine(x + BLOCK_SIZE - 1, y, x + BLOCK_SIZE - 1,
                             y + BLOCK_SIZE - 1);
                 }
 
-                if ((screenData[i] & 8) != 0) { 
+                if ((screenData[i] & 8) != 0) {
                     g2d.drawLine(x, y + BLOCK_SIZE - 1, x + BLOCK_SIZE - 1,
                             y + BLOCK_SIZE - 1);
                 }
 
-                if ((screenData[i] & 16) != 0) { 
-                    g2d.setColor(new Color(255,255,255));
+                if ((screenData[i] & 16) != 0) {
+                    /* Cat-Mouse-Cheese feature
+                    g2d.setColor(new Color(255, 255, 0));
+                     */
+                    g2d.setColor(new Color(255, 255, 255));
                     g2d.fillOval(x + 10, y + 10, 6, 6);
-               }
-
+                }
                 i++;
             }
         }
     }
 
     private void initGame() {
-
-    	lives = 3;
+        lives = 3;
         score = 0;
         initLevel();
         N_GHOSTS = 6;
@@ -344,7 +356,6 @@ public class Model extends JPanel implements ActionListener {
     }
 
     private void initLevel() {
-
         int i;
         for (i = 0; i < N_BLOCKS * N_BLOCKS; i++) {
             screenData[i] = levelData[i];
@@ -354,12 +365,11 @@ public class Model extends JPanel implements ActionListener {
     }
 
     private void continueLevel() {
-
-    	int dx = 1;
+        int dx = 1;
         int random;
 
+        // create random speed for ghost
         for (int i = 0; i < N_GHOSTS; i++) {
-
             ghost_y[i] = 4 * BLOCK_SIZE; //start position
             ghost_x[i] = 4 * BLOCK_SIZE;
             ghost_dy[i] = 0;
@@ -376,14 +386,13 @@ public class Model extends JPanel implements ActionListener {
 
         pacman_x = 7 * BLOCK_SIZE;  //start position
         pacman_y = 11 * BLOCK_SIZE;
-        pacmand_x = 0;	//reset direction move
+        pacmand_x = 0;    //reset direction move
         pacmand_y = 0;
-        req_dx = 0;		// reset direction controls
+        req_dx = 0;        // reset direction controls
         req_dy = 0;
         dying = false;
     }
 
- 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -411,7 +420,6 @@ public class Model extends JPanel implements ActionListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
-
             int key = e.getKeyCode();
 
             if (inGame) {
@@ -429,7 +437,13 @@ public class Model extends JPanel implements ActionListener {
                     req_dy = 1;
                 } else if (key == KeyEvent.VK_ESCAPE && timer.isRunning()) {
                     inGame = false;
-                } 
+                } else if (key == KeyEvent.VK_C) {
+                    if (timer.isRunning()) {
+                        timer.stop();
+                    } else {
+                        timer.start();
+                    }
+                }
             } else {
                 if (key == KeyEvent.VK_SPACE) {
                     inGame = true;
@@ -437,12 +451,12 @@ public class Model extends JPanel implements ActionListener {
                 }
             }
         }
-}
+    }
 
-	
+
     @Override
     public void actionPerformed(ActionEvent e) {
         repaint();
     }
-		
-	}
+
+}
