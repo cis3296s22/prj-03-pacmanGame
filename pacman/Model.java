@@ -56,9 +56,8 @@ public class Model extends JPanel implements ActionListener {
     private short[] screenData;
     private Timer timer;
 
-    /* Code for Will-O-Wisp feature
-    private Timer timer2;
-    private boolean isGhostInvis = false; */
+    /* Code for Will-O-Wisp
+    private Timer timer2; */
 
     public Model() {
         loadImages();
@@ -70,7 +69,8 @@ public class Model extends JPanel implements ActionListener {
 
     private void loadImages() {
 
-        /* Code for Cat-Mouse-Cheese feature
+
+        /* Code for Cat-Mouse-Cheese
         down = new ImageIcon("images/mouse.png").getImage();
         up = new ImageIcon("images/mouse.png").getImage();
         left = new ImageIcon("images/mouse.png").getImage();
@@ -98,7 +98,7 @@ public class Model extends JPanel implements ActionListener {
 
         timer = new Timer(40, this);
         timer.start();
-        /* Code for Will-O-Wisp feature
+        /* Code for Will-O-Wisp
         int delay = 1000;
         ActionListener taskPerformer = new ActionListener() {
             @Override
@@ -171,8 +171,7 @@ public class Model extends JPanel implements ActionListener {
     }
 
     private void death() {
-        /* Code for Infinity Pacman
-        lives--; */
+        lives--; // comment code for infinity pacman feature
         if (lives == 0) {
             inGame = false;
         }
